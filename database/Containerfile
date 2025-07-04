@@ -1,0 +1,13 @@
+# Usa la imagen oficial de PostgreSQL como base
+FROM postgres:latest
+
+# Establece la contraseña de PostgreSQL
+# Esta es una variable de entorno que PostgreSQL usa para la contraseña del usuario por defecto
+ENV POSTGRES_PASSWORD sa
+
+# Expone el puerto INTERNAMENTE en el contenedor
+EXPOSE 5432
+
+# Copiar archivos con scripts SQL para ejecutarlos al inicializar la base de datos
+COPY DDL.sql /docker-entrypoint-initdb.d/
+COPY DML.sql /docker-entrypoint-initdb.d/
