@@ -16,9 +16,9 @@ public class ComprasProducto {
     private Boolean estado;
     @ManyToOne
     @MapsId(value = "idCompra") // -> permite identificar a compra pertenece un producto
-    @JoinColumn(referencedColumnName = "id_compra", insertable = false, updatable = false)
+    @JoinColumn(name = "id_compra", insertable = false, updatable = false)
     private Compra compra;
     @ManyToOne
-    @JoinColumn(referencedColumnName = "id_producto", insertable = false, updatable = false)
+    @JoinColumn(name = "id_producto", insertable = false, updatable = false)
     private Producto producto;
 }
