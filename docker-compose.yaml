@@ -1,0 +1,15 @@
+services:
+  database:
+    build:
+      context: ./database
+    image: store-database-image:0.0.1
+    container_name: store-database
+    environment:
+      - POSTGRES_DB=tienda
+    ports:
+      - "5436:5432"
+    volumes:
+      - store-database:/var/lib/postgresql/18/docker
+
+volumes:
+  store-database:

@@ -1,80 +1,73 @@
+DO
+$$
+    BEGIN
+        IF
+            NOT EXISTS(SELECT 1
+                       FROM pg_database
+                       WHERE datname = 'tienda') THEN
+            PERFORM DBLINK_EXEC('dbname=postgres', 'CREATE DATABASE tienda');
+        END IF;
+    END
+$$;
+
+\c tienda;
 -- -----------------------------------------------------
--- Table "CATEGORIAS"
+-- Table CATEGORIAS
 -- -----------------------------------------------------
-CREATE TABLE  CATEGORIAS (
-  "id_categoria" SERIAL NOT NULL,
-  "descripcion" VARCHAR(45) NOT NULL,
-  "estado" BOOLEAN NOT NULL,
-  PRIMARY KEY ("id_categoria"));
+CREATE TABLE IF NOT EXISTS categorias
+(
+    id     SERIAL PRIMARY KEY,
+    nombre VARCHAR(45) NOT NULL,
+    activo BOOLEAN     NOT NULL DEFAULT TRUE
+);
 
 
 -- -----------------------------------------------------
--- Table "PRODUCTOS"
+-- Table PRODUCTOS
 -- -----------------------------------------------------
-CREATE TABLE  PRODUCTOS (
-  "id_producto" SERIAL NOT NULL,
-  "nombre" VARCHAR(45) NULL,
-  "id_categoria" INT NOT NULL,
-  "codigo_barras" VARCHAR(150) NULL,
-  "precio_venta" DECIMAL(16,2) NULL,
-  "cantidad_stock" INT NOT NULL,
-  "estado" BOOLEAN NULL,
-  PRIMARY KEY ("id_producto"),
-  CONSTRAINT "fk_PRODUCTOS_CATEGORIAS"
-    FOREIGN KEY ("id_categoria")
-    REFERENCES CATEGORIAS ("id_categoria")
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+CREATE TABLE IF NOT EXISTS productos
+(
+    id          SERIAL PRIMARY KEY,
+    nombre      VARCHAR(45) NOT NULL,
+    descripcion TEXT,
+    activo      BOOLEAN     NOT NULL DEFAULT TRUE
+);
 
 
--- -----------------------------------------------------
--- Table "CLIENTES"
--- -----------------------------------------------------
-CREATE TABLE  CLIENTES (
-  "id" VARCHAR(20) NOT NULL,
-  "nombre" VARCHAR(40) NULL,
-  "apellidos" VARCHAR(100) NULL,
-  "celular" NUMERIC NULL,
-  "direccion" VARCHAR(80) NULL,
-  "correo_electronico" VARCHAR(70) NULL,
-  PRIMARY KEY ("id"));
+CREATE TABLE IF NOT EXISTS categorias_productos
+(
+    id_producto  INT REFERENCES productos (id) ON DELETE CASCADE,
+    id_categoria INT REFERENCES CATEGORIAS (id) ON DELETE CASCADE,
+    PRIMARY KEY (id_producto, id_categoria)
+);
 
+CREATE TABLE IF NOT EXISTS variantes_productos
+(
+    id                   SERIAL PRIMARY KEY,
+    id_producto          INT                NOT NULL REFERENCES productos (id) ON DELETE CASCADE,
+    sku                  VARCHAR(50) UNIQUE NOT NULL,
+    precio               DECIMAL(12, 2)     NOT NULL,
+    descuento            INT                NOT NULL CHECK ( descuento < 100 )          DEFAULT 0,
+    unidades_disponibles INT                NOT NULL CHECK ( unidades_disponibles >= 0) DEFAULT 0,
+    enlace_imagen        TEXT
+);
 
--- -----------------------------------------------------
--- Table "COMPRAS"
--- -----------------------------------------------------
-CREATE TABLE  COMPRAS (
-  "id_compra" SERIAL NOT NULL,
-  "id_cliente" VARCHAR(20) NOT NULL,
-  "fecha" TIMESTAMP NULL,
-  "medio_pago" CHAR(1) NULL,
-  "comentario" VARCHAR(300) NULL,
-  "estado" CHAR(1) NULL,
-  PRIMARY KEY ("id_compra"),
-  CONSTRAINT "fk_COMPRAS_CLIENTES1"
-    FOREIGN KEY ("id_cliente")
-    REFERENCES CLIENTES ("id")
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+CREATE TABLE IF NOT EXISTS atributos
+(
+    id     SERIAL PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL
+);
 
+CREATE TABLE IF NOT EXISTS valores_atributos
+(
+    id          SERIAL PRIMARY KEY,
+    id_atributo INT REFERENCES atributos (id) ON DELETE CASCADE,
+    valor       VARCHAR(50) NOT NULL
+);
 
--- -----------------------------------------------------
--- Table "COMPRAS_PRODUCTOS"
--- -----------------------------------------------------
-CREATE TABLE  COMPRAS_PRODUCTOS (
-  "id_compra" INT NOT NULL,
-  "id_producto" INT NOT NULL,
-  "cantidad" INT NULL,
-  "total" DECIMAL(16,2) NULL,
-  "estado" BOOLEAN NULL,
-  PRIMARY KEY ("id_compra", "id_producto"),
-  CONSTRAINT "fk_COMPRAS_PRODUCTOS_PRODUCTOS1"
-    FOREIGN KEY ("id_producto")
-    REFERENCES PRODUCTOS ("id_producto")
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT "fk_COMPRAS_PRODUCTOS_COMPRAS1"
-    FOREIGN KEY ("id_compra")
-    REFERENCES COMPRAS ("id_compra")
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+CREATE TABLE IF NOT EXISTS valores_variantes
+(
+    id_variante       INT REFERENCES variantes_productos (id),
+    id_valor_atributo INT REFERENCES valores_atributos (id),
+    PRIMARY KEY (id_variante, id_valor_atributo)
+);

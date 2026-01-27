@@ -1,5 +1,5 @@
 # Usa la imagen oficial de PostgreSQL como base
-FROM postgres:latest
+FROM postgres:18
 
 # Establece la contraseña de PostgreSQL
 # Esta es una variable de entorno que PostgreSQL usa para la contraseña del usuario por defecto
