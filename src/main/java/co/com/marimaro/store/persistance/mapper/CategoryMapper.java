@@ -1,7 +1,10 @@
 package co.com.marimaro.store.persistance.mapper;
 
-import co.com.marimaro.store.domain.Category;
-import co.com.marimaro.store.persistance.entity.Categoria;
+import co.com.marimaro.store.domain.product.Category;
+import co.com.marimaro.store.persistance.entity.product.Categoria;
+import co.com.marimaro.store.web.dto.response.product.AttributeDTO;
+import co.com.marimaro.store.web.dto.response.product.CategoryDTO;
+
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -10,14 +13,15 @@ import org.mapstruct.Mappings;
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
     @Mappings({
-            @Mapping(source = "id", target = "id"),
-            @Mapping(source = "descripcion", target = "name"),
-            @Mapping(source = "estado", target = "active")
+            @Mapping(source = "nombre", target = "name"),
+            @Mapping(source = "activo", target = "isActive")
     })
-    Category toCategory(Categoria categoria);
+    Category toDomain(Categoria entity);
 
     @InheritInverseConfiguration
-    // -> usa la conversión inversa del método anterior.
     @Mapping(target = "productos", ignore = true)
-    Categoria toCategoria(Category category);
+    Categoria toEntity(Category domain);
+
+    
+    Category toDomain(CategoryDTO dto);
 }

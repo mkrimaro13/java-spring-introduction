@@ -1,6 +1,6 @@
 package co.com.marimaro.store.persistance.mapper;
 
-import co.com.marimaro.store.domain.PurchaseItem;
+import co.com.marimaro.store.domain.purchase.PurchaseItem;
 import co.com.marimaro.store.persistance.entity.ComprasProducto;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

@@ -1,5 +1,6 @@
 package co.com.marimaro.store.persistance.entity;
 
+import co.com.marimaro.store.persistance.entity.product.Producto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

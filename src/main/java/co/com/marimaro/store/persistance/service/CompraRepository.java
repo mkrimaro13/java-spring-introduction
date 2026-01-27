@@ -1,8 +1,8 @@
-package co.com.marimaro.store.persistance;
+package co.com.marimaro.store.persistance.service;
 
-import co.com.marimaro.store.domain.Purchase;
-import co.com.marimaro.store.domain.repository.PurchaseRepository;
-import co.com.marimaro.store.persistance.crud.CompraCrudRepository;
+import co.com.marimaro.store.domain.purchase.Purchase;
+import co.com.marimaro.store.domain.purchase.gateway.PurchaseRepository;
+import co.com.marimaro.store.persistance.repository.CompraCrudRepository;
 import co.com.marimaro.store.persistance.entity.Compra;
 import co.com.marimaro.store.persistance.mapper.PurchaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;

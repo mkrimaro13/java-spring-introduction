@@ -1,7 +1,9 @@
-package co.com.marimaro.store.persistance.entity;
+package co.com.marimaro.store.persistance.entity.product;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -10,14 +12,14 @@ import java.util.List;
 @Table(name = "categorias")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_categoria")
     private Long id;
-    private String descripcion;
-    private Boolean estado;
-    @OneToMany(mappedBy = "categoria") // nombre del atributo en la clase Producto
+    private String nombre;
+    private Boolean activo;
+    @ManyToMany(mappedBy = "categorias",fetch = FetchType.LAZY)
     private List<Producto> productos;
-
 }

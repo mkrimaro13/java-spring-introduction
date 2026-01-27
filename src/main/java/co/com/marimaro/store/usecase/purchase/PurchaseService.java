@@ -1,7 +1,7 @@
-package co.com.marimaro.store.domain.service;
+package co.com.marimaro.store.usecase.purchase;
 
-import co.com.marimaro.store.domain.Purchase;
-import co.com.marimaro.store.domain.repository.PurchaseRepository;
+import co.com.marimaro.store.domain.purchase.Purchase;
+import co.com.marimaro.store.domain.purchase.gateway.PurchaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

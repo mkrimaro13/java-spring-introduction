@@ -1,4 +1,4 @@
-package co.com.marimaro.store.domain;
+package co.com.marimaro.store.domain.purchase;
 
 import lombok.Getter;
 import lombok.Setter;

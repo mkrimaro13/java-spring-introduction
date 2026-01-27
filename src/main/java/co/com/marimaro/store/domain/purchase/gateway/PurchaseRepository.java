@@ -1,6 +1,6 @@
-package co.com.marimaro.store.domain.repository;
+package co.com.marimaro.store.domain.purchase.gateway;
 
-import co.com.marimaro.store.domain.Purchase;
+import co.com.marimaro.store.domain.purchase.Purchase;
 
 import java.util.List;
 import java.util.Optional;

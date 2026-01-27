@@ -1,23 +1,22 @@
-package co.com.marimaro.store.persistance;
+package co.com.marimaro.store.persistance.service;
 
-import co.com.marimaro.store.domain.Product;
-import co.com.marimaro.store.domain.repository.ProductRepository;
-import co.com.marimaro.store.persistance.crud.ProductoCrudRepository;
-import co.com.marimaro.store.persistance.entity.Producto;
+import co.com.marimaro.store.domain.product.Product;
+import co.com.marimaro.store.domain.product.gateway.ProductRepository;
+import co.com.marimaro.store.persistance.repository.ProductoCrudRepository;
+import co.com.marimaro.store.persistance.entity.product.Producto;
 
 import java.util.List;
 import java.util.Optional;
 
 import co.com.marimaro.store.persistance.mapper.ProductMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+@RequiredArgsConstructor
 @Repository
 public class ProductoRepository implements ProductRepository {
-    @Autowired
-    private ProductoCrudRepository productoRepository;
-    @Autowired
-    private ProductMapper productMapper;
+    private final ProductoCrudRepository productoRepository;
+    private final ProductMapper productMapper;
 
     public List<Product> getAll() {
         return productMapper.toProducts((List<Producto>) productoRepository.findAll());
@@ -25,12 +24,7 @@ public class ProductoRepository implements ProductRepository {
 
     @Override
     public Optional<List<Product>> getByCategory(Long categoryId) {
-        return Optional.of(productMapper.toProducts(productoRepository.findByIdCategoriaOrderByNombreAsc(categoryId)));
-    }
-
-    @Override
-    public Optional<List<Product>> getScarseProducts(int quantity) {
-        return productoRepository.findByStockLessThanAndEstado(quantity, true).map((productMapper::toProducts));
+        return Optional.of(productMapper.toProducts(productoRepository.findyProductosByCategorias_Id(categoryId)));
     }
 
     @Override
@@ -39,8 +33,13 @@ public class ProductoRepository implements ProductRepository {
     }
 
     @Override
-    public Product save(Product product) {
+    public Product create(Product product) {
         return productMapper.toProduct(productoRepository.save(productMapper.toProducto(product)));
+    }
+
+    @Override
+    public Product update(Product product) {
+        return null;
     }
 
     @Override

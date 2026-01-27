@@ -1,4 +1,4 @@
-package co.com.marimaro.store.persistance.crud;
+package co.com.marimaro.store.persistance.repository;
 
 import co.com.marimaro.store.persistance.entity.Compra;
 import org.springframework.data.repository.CrudRepository;
