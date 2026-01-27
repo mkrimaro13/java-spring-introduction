@@ -3,9 +3,9 @@ package co.com.marimaro.store.web.controller;
 import co.com.marimaro.store.domain.product.Product;
 import co.com.marimaro.store.persistance.mapper.ProductMapper;
 import co.com.marimaro.store.usecase.product.ProductUseCase;
+import co.com.marimaro.store.web.dto.response.product.DetailedProductDTO;
 import co.com.marimaro.store.web.dto.response.product.SummarizedProductDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,12 @@ public class ProductController {
 
     @GetMapping("")
     public ResponseEntity<List<SummarizedProductDTO>> getAll() {
-        return ResponseEntity.ok(productService.getAll().stream().map(product -> productMapper.toSummarizedProductDTO(product)).toList());
+        return ResponseEntity.ok(productService.getAll().stream().map(productMapper::toSummarizedProductDTO).toList());
+    }
+
+    @GetMapping("/detailed")
+    public ResponseEntity<List<DetailedProductDTO>> getAllDetailed() {
+        return ResponseEntity.ok(productService.getAll().stream().map(productMapper::toDetailedProductDTO).toList());
     }
 
     @GetMapping("/{id}")
@@ -35,7 +40,8 @@ public class ProductController {
     @GetMapping("/category/{categoryId}")
     public ResponseEntity<List<Product>> getByCategory(@PathVariable Long categoryId) {
         return productService.getProductsByCategory(categoryId)
-                .filter(Predicate.not(List::isEmpty)) //-> evita que se retorne un 200 OK, ya que como tal el Optinal retorna una Lista vacía y no un Empty
+                .filter(Predicate.not(List::isEmpty)) // -> evita que se retorne un 200 OK, ya que como tal el Optinal
+                                                      // retorna una Lista vacía y no un Empty
                 .map(ResponseEntity::ok)
                 .orElse(new ResponseEntity<>(HttpStatus.NO_CONTENT));
     }

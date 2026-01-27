@@ -8,11 +8,12 @@ import java.util.List;
 @Data
 @Builder(toBuilder = true)
 public class Variant {
-    private Integer id;
+    private Long id;
     private Product product;
     private Integer price;
     private Float discount;
     private String sku;
     private Integer stock;
+    private String imageUrl;
     private List<Attribute> attributes;
 }

@@ -19,22 +19,22 @@ public class ProductoRepository implements ProductRepository {
     private final ProductMapper productMapper;
 
     public List<Product> getAll() {
-        return productMapper.toProducts((List<Producto>) productoRepository.findAll());
+        return ((List<Producto>) productoRepository.findAll()).stream().map(productMapper::toDomain).toList();
     }
 
     @Override
     public Optional<List<Product>> getByCategory(Long categoryId) {
-        return Optional.of(productMapper.toProducts(productoRepository.findyProductosByCategorias_Id(categoryId)));
+        return Optional.of(productoRepository.findProductosByCategorias_Id(categoryId).stream().map(productMapper::toDomain).toList());
     }
 
     @Override
     public Optional<Product> getProduct(Long productId) {
-        return productoRepository.findById(productId).map(productMapper::toProduct);
+        return productoRepository.findById(productId != null ? productId : 0).map(productMapper::toDomain);
     }
 
     @Override
     public Product create(Product product) {
-        return productMapper.toProduct(productoRepository.save(productMapper.toProducto(product)));
+        return productMapper.toDomain(productoRepository.save(productMapper.toEntity(product)));
     }
 
     @Override
@@ -42,11 +42,9 @@ public class ProductoRepository implements ProductRepository {
         return null;
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long productId) {
         productoRepository.deleteById(productId);
-    }
-
-    public static class CompraRepository {
     }
 }

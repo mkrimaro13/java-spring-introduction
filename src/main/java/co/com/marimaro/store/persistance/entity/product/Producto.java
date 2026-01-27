@@ -21,7 +21,7 @@ public class Producto {
     private Long id;
     private String nombre;
     private String descripcion;
-    private Boolean estado;
+    private Boolean activo;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name="categorias_productos",

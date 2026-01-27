@@ -8,26 +8,36 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-@Mapper(componentModel = "spring", uses = {AttributeMapper.class})
+@Mapper(componentModel = "spring", uses = { AttributeMapper.class })
 public interface VariantMapper {
-    default Double calculateFinalPrice(Variante entity) {
-        if (entity.getDescuento() == null || entity.getDescuento() <= 0) {
-            return entity.getPrecio();
+    default Double calculateFinalPrice(Variant domain) {
+        if (domain.getDiscount() == null || domain.getDiscount() <= 0) {
+            return domain.getPrice().doubleValue();
         }
-        double descuentoDecimal = entity.getDescuento() / 100.0;
-        double valorFinal = entity.getPrecio() * (1 - descuentoDecimal);
+        double descuentoDecimal = domain.getDiscount() / 100.0;
+        double valorFinal = domain.getPrice() * (1 - descuentoDecimal);
         return Math.round(valorFinal * 100.0) / 100.0;
     }
 
+    // Persistencia -> Dominio
     @Mappings({
-            @Mapping(source = "precio", target = "basePrice"),
+            @Mapping(source = "producto", target = "product"),
+            @Mapping(source = "precio", target = "price"),
             @Mapping(source = "descuento", target = "discount"),
-            @Mapping(target = "finalPrice", expression = "java(calculateFinalPrice(entity))"),
             @Mapping(source = "imagenUrl", target = "imageUrl"),
             @Mapping(source = "valoresAtributos", target = "attributes")
     })
-    VariantDTO toDTO(Variante entity);
+    Variant toDomain(Variante entity);
 
+    // Dominio -> Persistencia
     @InheritInverseConfiguration
-    Variant toDomain(VariantDTO dto);
+    @Mapping(target = "producto", ignore = true)
+    Variante toEntity(Variant domain);
+
+    // Dominio -> DTO
+    @Mappings({
+            @Mapping(source = "price", target = "basePrice"),
+            @Mapping(target = "finalPrice", expression = "java(calculateFinalPrice(domain))"),
+    })
+    VariantDTO toDto(Variant domain);
 }

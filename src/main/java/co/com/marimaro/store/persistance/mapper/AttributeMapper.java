@@ -20,14 +20,15 @@ public interface AttributeMapper {
 
     // Dominio -> Persistencia
     @InheritInverseConfiguration
+    @Mapping(target = "variantes", ignore = true)
     ValoresAtributos toEntity(Attribute domain);
 
     // Sin @Mappings ya que los nombres son iguales
     // DTO -> Dominio
+    @Mapping(target = "id", ignore = true)
     Attribute toDomain(AttributeDTO dto);
 
     // Dominio -> DTO
     AttributeDTO toDTO(Attribute domain);
-
 
 }

@@ -4,40 +4,34 @@ import co.com.marimaro.store.domain.product.Product;
 import co.com.marimaro.store.persistance.entity.product.Producto;
 import co.com.marimaro.store.web.dto.response.product.DetailedProductDTO;
 import co.com.marimaro.store.web.dto.response.product.SummarizedProductDTO;
+
+import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-import java.util.List;
-
-@Mapper(componentModel = "spring", uses = {CategoryMapper.class, VariantMapper.class})
+@Mapper(componentModel = "spring", uses = {
+        VariantMapper.class }, collectionMappingStrategy = CollectionMappingStrategy.TARGET_IMMUTABLE)
 public interface ProductMapper {
-    @Mappings({
-            @Mapping(source = "nombre", target = "name")
-    })
+
+    // Domain -> DTO
     SummarizedProductDTO toSummarizedProductDTO(Product product);
 
-    @Mappings({
-            @Mapping(source = "nombre", target = "name"),
-            @Mapping(source = "descripcion", target = "description"),
-            @Mapping(source = "variantes", target = "variants"),
-    })
     DetailedProductDTO toDetailedProductDTO(Product product);
+
+    // Persistencia -> Dominio
     @Mappings({
             @Mapping(source = "id", target = "id"),
             @Mapping(source = "nombre", target = "name"),
-            @Mapping(source = "idCategoria", target = "categoryId"),
-            @Mapping(source = "precio", target = "price"),
-            @Mapping(source = "stock", target = "stock"),
-            @Mapping(source = "estado", target = "active"),
-            @Mapping(source = "categoria", target = "category"),
+            @Mapping(source = "activo", target = "isActive"),
+            @Mapping(source = "categorias", target = "categories"),
+            @Mapping(source = "variantes", target = "variants"),
+            @Mapping(source = "descripcion", target = "description"),
     })
-    Product toProduct(Producto producto);
+    Product toDomain(Producto producto);
 
-    List<Product> toProducts(List<Producto> productos);
-
+    // Dominio -> Persistencia
     @InheritInverseConfiguration
-    @Mapping(target = "codigoBarras", ignore = true)
-    Producto toProducto(Product product);
+    Producto toEntity(Product product);
 }
