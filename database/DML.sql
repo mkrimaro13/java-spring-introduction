@@ -1,5 +1,7 @@
 \c tienda;
 
+SET search_path TO comercial, public;
+
 INSERT INTO categorias (nombre)
 VALUES ('ropa interior'),
        ('ropa casual'),

@@ -11,9 +11,13 @@ $$
 $$;
 
 \c tienda;
--- -----------------------------------------------------
--- Table CATEGORIAS
--- -----------------------------------------------------
+
+CREATE SCHEMA IF NOT EXISTS comercial;
+
+SET search_path TO comercial, public;
+
+SHOW search_path;
+
 CREATE TABLE IF NOT EXISTS categorias
 (
     id     SERIAL PRIMARY KEY,
@@ -71,3 +75,11 @@ CREATE TABLE IF NOT EXISTS valores_variantes
     id_valor_atributo INT REFERENCES valores_atributos (id),
     PRIMARY KEY (id_variante, id_valor_atributo)
 );
+
+CREATE SCHEMA IF NOT EXISTS management;
+
+SET search_path TO management, public;
+
+SHOW search_path;
+
+\dn
