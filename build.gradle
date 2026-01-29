@@ -12,6 +12,9 @@ java {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
+compileJava{
+	options.compilerArgs << '-parameters' 
+}
 
 configurations {
 	compileOnly {
