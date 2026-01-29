@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "variantes_productos")
+@Table(schema = "comercial", name = "variantes_productos")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -27,6 +27,7 @@ public class Variante {
     private String imagenUrl;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
+            schema = "comercial",
             name = "valores_variantes",
             joinColumns = @JoinColumn(name = "id_variante"),
             inverseJoinColumns = @JoinColumn(name = "id_valor_atributo")

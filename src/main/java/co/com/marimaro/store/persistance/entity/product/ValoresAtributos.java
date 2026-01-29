@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "valores_atributos")
+@Table(schema = "comercial", name = "valores_atributos")
 @Getter
 @Setter
 @AllArgsConstructor

@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "productos")
+@Table(schema = "comercial", name = "productos")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -24,6 +24,7 @@ public class Producto {
     private Boolean activo;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
+            schema = "comercial",
             name="categorias_productos",
             joinColumns = @JoinColumn(name = "id_producto"),
             inverseJoinColumns = @JoinColumn(name="id_categoria")
