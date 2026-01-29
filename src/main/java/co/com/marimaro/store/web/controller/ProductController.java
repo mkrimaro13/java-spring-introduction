@@ -1,17 +1,17 @@
 package co.com.marimaro.store.web.controller;
 
 import co.com.marimaro.store.domain.product.Product;
+import co.com.marimaro.store.persistance.mapper.CategoryMapper;
 import co.com.marimaro.store.persistance.mapper.ProductMapper;
 import co.com.marimaro.store.usecase.product.ProductUseCase;
+import co.com.marimaro.store.web.dto.response.product.CategoryDTO;
 import co.com.marimaro.store.web.dto.response.product.DetailedProductDTO;
-import co.com.marimaro.store.web.dto.response.product.SummarizedProductDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,30 +19,24 @@ import java.util.function.Predicate;
 public class ProductController {
     public final ProductUseCase productService;
     public final ProductMapper productMapper;
+    public final CategoryMapper categoryMapper;
 
     @GetMapping("")
-    public ResponseEntity<List<SummarizedProductDTO>> getAll() {
-        return ResponseEntity.ok(productService.getAll().stream().map(productMapper::toSummarizedProductDTO).toList());
-    }
-
-    @GetMapping("/detailed")
     public ResponseEntity<List<DetailedProductDTO>> getAllDetailed() {
         return ResponseEntity.ok(productService.getAll().stream().map(productMapper::toDetailedProductDTO).toList());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Product> getById(@PathVariable Long id) {
+    @GetMapping("/{id}/details")
+    public ResponseEntity<DetailedProductDTO> getById(@PathVariable Long id) {
         return productService.getProductById(id)
-                .map(ResponseEntity::ok)
+                .map(product -> ResponseEntity.ok(productMapper.toDetailedProductDTO(product)))
                 .orElse(new ResponseEntity<>(HttpStatus.NO_CONTENT));
     }
 
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<Product>> getByCategory(@PathVariable Long categoryId) {
-        return productService.getProductsByCategory(categoryId)
-                .filter(Predicate.not(List::isEmpty)) // -> evita que se retorne un 200 OK, ya que como tal el Optinal
-                                                      // retorna una Lista vacía y no un Empty
-                .map(ResponseEntity::ok)
+    @GetMapping("/by/category/{id}")
+    public ResponseEntity<CategoryDTO> getByCategory(@PathVariable Long id) {
+        return productService.getProductsByCategory(id)
+                .map(category -> ResponseEntity.ok(categoryMapper.toDto(category)))
                 .orElse(new ResponseEntity<>(HttpStatus.NO_CONTENT));
     }
 

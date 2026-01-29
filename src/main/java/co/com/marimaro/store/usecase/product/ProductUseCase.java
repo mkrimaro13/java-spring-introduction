@@ -1,6 +1,7 @@
 package co.com.marimaro.store.usecase.product;
 
 import co.com.marimaro.store.domain.product.Product;
+import co.com.marimaro.store.domain.product.Category;
 import co.com.marimaro.store.domain.product.gateway.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class ProductUseCase {
         return repository.getProduct(id);
     }
 
-    public Optional<List<Product>> getProductsByCategory(Long categoryId) {
+    public Optional<Category> getProductsByCategory(Long categoryId) {
         return repository.getByCategory(categoryId);
     }
 
