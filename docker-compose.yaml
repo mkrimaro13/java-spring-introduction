@@ -2,7 +2,7 @@ name: store
 services:
   database:
     build:
-      context: ./database
+      context: ./deployment/database
     image: store-database-image:0.0.1
     container_name: store-database
     environment:
@@ -11,6 +11,28 @@ services:
       - "5436:5432"
     volumes:
       - store-database:/var/lib/postgresql/18/docker
+  # API Spring boot REST
+  api:
+    build:
+      context: .
+      dockerfile: ./deployment/application/Dockerfile
+    image: store-api-image:0.0.1
+    container_name: store-api
+    ports:
+      - "8090:8090"
+      - "5005:5005"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://store-database:5432/tienda
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=sa
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_APP_PORT=8090
+    volumes:
+      - .:/app
+      - gradle-cache:/home/gradle/.gradle
+    depends_on:
+      - database
 
 volumes:
   store-database:
+  gradle-cache:
