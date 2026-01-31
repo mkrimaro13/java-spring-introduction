@@ -1,10 +1,10 @@
 package co.com.marimaro.store.persistance.service;
 
-import co.com.marimaro.store.domain.product.Category;
-import co.com.marimaro.store.domain.product.Product;
-import co.com.marimaro.store.domain.product.gateway.ProductRepository;
 import co.com.marimaro.store.persistance.repository.CategoriaCrudRepository;
 import co.com.marimaro.store.persistance.repository.ProductoCrudRepository;
+import co.com.marimaro.store.domain.model.product.Category;
+import co.com.marimaro.store.domain.model.product.Product;
+import co.com.marimaro.store.domain.model.product.gateway.ProductRepository;
 import co.com.marimaro.store.persistance.entity.product.Producto;
 
 import java.util.List;

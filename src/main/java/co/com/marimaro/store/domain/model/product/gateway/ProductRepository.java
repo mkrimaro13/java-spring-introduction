@@ -1,10 +1,10 @@
-package co.com.marimaro.store.domain.product.gateway;
+package co.com.marimaro.store.domain.model.product.gateway;
 
 import java.util.List;
 import java.util.Optional;
 
-import co.com.marimaro.store.domain.product.Category;
-import co.com.marimaro.store.domain.product.Product;
+import co.com.marimaro.store.domain.model.product.Category;
+import co.com.marimaro.store.domain.model.product.Product;
 
 public interface ProductRepository {
     List<Product> getAll();

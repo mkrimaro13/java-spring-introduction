@@ -1,11 +1,12 @@
-package co.com.marimaro.store.web.controller;
+package co.com.marimaro.store.external.web.controller;
 
-import co.com.marimaro.store.domain.product.Product;
+import co.com.marimaro.store.domain.model.product.Product;
+import co.com.marimaro.store.domain.usecase.product.ProductUseCase;
+import co.com.marimaro.store.external.web.dto.request.create.product.CreateProductDTO;
+import co.com.marimaro.store.external.web.dto.response.product.CategoryDTO;
+import co.com.marimaro.store.external.web.dto.response.product.DetailedProductDTO;
 import co.com.marimaro.store.persistance.mapper.CategoryMapper;
 import co.com.marimaro.store.persistance.mapper.ProductMapper;
-import co.com.marimaro.store.usecase.product.ProductUseCase;
-import co.com.marimaro.store.web.dto.response.product.CategoryDTO;
-import co.com.marimaro.store.web.dto.response.product.DetailedProductDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,8 +42,8 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Product> create(@RequestBody Product product) {
-        return new ResponseEntity<>(productService.create(product), HttpStatus.CREATED);
+    public ResponseEntity<Product> create(@RequestBody CreateProductDTO product) {
+        return new ResponseEntity<>(productService.create(productMapper.toDomain(product)), HttpStatus.CREATED);
     }
 
     @DeleteMapping("")

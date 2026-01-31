@@ -1,4 +1,4 @@
-package co.com.marimaro.store.domain.product;
+package co.com.marimaro.store.domain.model.product;
 
 import lombok.*;
 

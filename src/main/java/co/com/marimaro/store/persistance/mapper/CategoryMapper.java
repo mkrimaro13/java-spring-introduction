@@ -1,8 +1,8 @@
 package co.com.marimaro.store.persistance.mapper;
 
-import co.com.marimaro.store.domain.product.Category;
+import co.com.marimaro.store.domain.model.product.Category;
+import co.com.marimaro.store.external.web.dto.response.product.CategoryDTO;
 import co.com.marimaro.store.persistance.entity.product.Categoria;
-import co.com.marimaro.store.web.dto.response.product.CategoryDTO;
 
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -22,4 +22,12 @@ public interface CategoryMapper {
     Categoria toEntity(Category domain);
 
     CategoryDTO toDto(Category domain);
+
+    @Mappings({
+            @Mapping(target = "id", source = "id"),
+            @Mapping(target = "name", ignore = true),
+            @Mapping(target = "isActive", ignore = true),
+            @Mapping(target = "products", ignore = true)
+    })
+    Category toDomain(Long id);
 }

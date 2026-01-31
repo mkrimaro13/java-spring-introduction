@@ -1,4 +1,4 @@
-package co.com.marimaro.store.web.dto.response.product;
+package co.com.marimaro.store.external.web.dto.response.product;
 
 import java.util.List;
 

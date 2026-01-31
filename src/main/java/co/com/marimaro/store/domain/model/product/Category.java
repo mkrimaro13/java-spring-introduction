@@ -1,4 +1,6 @@
-package co.com.marimaro.store.web.dto.response.product;
+package co.com.marimaro.store.domain.model.product;
+
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +11,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SummarizedProductDTO {
+public class Category {
     private Long id;
     private String name;
+    private Boolean isActive;
+    private List<Product> products;
 }

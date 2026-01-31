@@ -1,4 +1,4 @@
-package co.com.marimaro.store.web.dto.response.product;
+package co.com.marimaro.store.external.web.dto.response.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,9 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class AttributeDTO {
+@NoArgsConstructor
+public class SummarizedProductDTO {
+    private Long id;
     private String name;
-    private String value;
 }
