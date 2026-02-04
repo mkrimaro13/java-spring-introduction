@@ -20,6 +20,6 @@ public class Categoria {
     private Long id;
     private String nombre;
     private Boolean activo;
-    @ManyToMany(mappedBy = "categorias",fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "categorias")
     private List<Producto> productos;
 }

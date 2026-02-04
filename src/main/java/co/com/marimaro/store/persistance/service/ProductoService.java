@@ -1,38 +1,38 @@
 package co.com.marimaro.store.persistance.service;
 
-import co.com.marimaro.store.persistance.repository.CategoriaCrudRepository;
-import co.com.marimaro.store.persistance.repository.ProductoCrudRepository;
-import co.com.marimaro.store.domain.model.product.Category;
 import co.com.marimaro.store.domain.model.product.Product;
 import co.com.marimaro.store.domain.model.product.gateway.ProductRepository;
-import co.com.marimaro.store.persistance.entity.product.Producto;
+import co.com.marimaro.store.domain.model.product.gateway.ProductSearchCriteria;
 
 import java.util.List;
 import java.util.Optional;
 
-import co.com.marimaro.store.persistance.mapper.CategoryMapper;
 import co.com.marimaro.store.persistance.mapper.ProductMapper;
+import co.com.marimaro.store.persistance.repository.Producto.ProductoRepository;
+import co.com.marimaro.store.persistance.repository.Producto.ProductoSpecification;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class ProductoRepository implements ProductRepository {
-    private final ProductoCrudRepository productoRepository;
-    private final CategoriaCrudRepository categoryRepository;
+public class ProductoService implements ProductRepository {
+    private final ProductoRepository productoRepository;
 
     private final ProductMapper productMapper;
-    private final CategoryMapper categoryMapper;
-
-    public List<Product> getAll() {
-        return ((List<Producto>) productoRepository.findAll()).stream().map(productMapper::toDomain).toList();
-    }
 
     @Override
-    public Optional<Category> getByCategory(Long categoryId) {
-        return (categoryId != null && categoryId > 0)
-                ? categoryRepository.findById(categoryId).map(categoryMapper::toDomain)
-                : Optional.empty();
+    public List<Product> getAllFiltering(ProductSearchCriteria criteria) {
+        Pageable pageable = PageRequest.of(criteria.page_number(), criteria.page_size());
+        List<Product> data = productoRepository
+                .findAll(ProductoSpecification.filterBy(productMapper.toPersistence(criteria)), pageable)
+                .stream()
+                .map(productMapper::toDomain)
+                .toList();
+        data.forEach(System.out::println);
+        return data;
     }
 
     @Override
@@ -42,6 +42,9 @@ public class ProductoRepository implements ProductRepository {
 
     @Override
     public Product create(Product product) {
+        if (product == null) {
+            throw new IllegalArgumentException("La entidad a crear no puede ser nula");
+        }
         return productMapper.toDomain(productoRepository.save(productMapper.toEntity(product)));
     }
 

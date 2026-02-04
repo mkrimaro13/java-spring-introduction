@@ -1,4 +1,4 @@
-package co.com.marimaro.store.persistance.repository;
+package co.com.marimaro.store.persistance.repository.categoria;
 
 import org.springframework.data.repository.CrudRepository;
 

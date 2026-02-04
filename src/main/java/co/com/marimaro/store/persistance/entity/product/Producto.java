@@ -30,6 +30,6 @@ public class Producto {
             inverseJoinColumns = @JoinColumn(name="id_categoria")
     )
     private List<Categoria> categorias;
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY)
     private List<Variante> variantes;
 }

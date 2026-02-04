@@ -20,7 +20,7 @@ services:
     container_name: store-api
     ports:
       - "8090:8090"
-      - "5005:5005"
+      - "35279:35279"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://store-database:5432/tienda
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -29,6 +29,7 @@ services:
       - SPRING_APP_PORT=8090
     volumes:
       - .:/app
+      - /app/build
       - gradle-cache:/home/gradle/.gradle
     depends_on:
       - database

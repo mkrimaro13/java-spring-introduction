@@ -3,13 +3,10 @@ package co.com.marimaro.store.domain.model.product.gateway;
 import java.util.List;
 import java.util.Optional;
 
-import co.com.marimaro.store.domain.model.product.Category;
 import co.com.marimaro.store.domain.model.product.Product;
 
 public interface ProductRepository {
-    List<Product> getAll();
-
-    Optional<Category> getByCategory(Long id);
+    List<Product> getAllFiltering(ProductSearchCriteria filters);
 
     Optional<Product> getProduct(Long productId);
 

@@ -1,30 +1,29 @@
 package co.com.marimaro.store.domain.usecase.product;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
-import co.com.marimaro.store.domain.model.product.Category;
 import co.com.marimaro.store.domain.model.product.Product;
 import co.com.marimaro.store.domain.model.product.gateway.ProductRepository;
+import co.com.marimaro.store.domain.model.product.gateway.ProductSearchCriteria;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ProductUseCase {
     private final ProductRepository repository;
 
-    public List<Product> getAll() {
-        return repository.getAll();
+    public List<Product> getAllFiltering(ProductSearchCriteria criteria) {
+        return repository.getAllFiltering(criteria);
     }
 
     public Optional<Product> getProductById(Long id) {
         return repository.getProduct(id);
-    }
-
-    public Optional<Category> getProductsByCategory(Long categoryId) {
-        return repository.getByCategory(categoryId);
     }
 
     public Product save(Product product) {

@@ -2,8 +2,6 @@ package co.com.marimaro.store.external.web.dto.response.product;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,13 +12,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonPropertyOrder({ "id", "name", "description", "categories", "variants" })
-public class DetailedProductDTO {
+public class SummarizedCategoryDTO {
     private Long id;
     private String name;
     private String description;
-    private List<SummarizedCategoryDTO> categories;
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<VariantDTO> variants;
-    
 }

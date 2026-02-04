@@ -15,10 +15,9 @@
 # EXPOSE 8080
 # ENTRYPOINT ["java", "-jar", "app.jar"]
 
-FROM gradle:8.5-jdk21
+FROM gradle:9-jdk25
 WORKDIR /app
-# No se copia directamente el código, se copiará en un volumen en el compose
-# Exponemos el puerto de la app y el de debug (opcional)
-EXPOSE 8090 5005
+EXPOSE 8090
+EXPOSE 35729
 # Comando para ejecutar en modo desarrollo con recarga automática
-ENTRYPOINT ["gradle", "bootRun", "--continuous", "-PskipDownload=true"]
+ENTRYPOINT ["gradle", "bootRun", "--continuous", "-Dorg.gradle.vfs.watch=true"]

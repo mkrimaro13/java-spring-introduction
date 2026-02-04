@@ -1,10 +1,12 @@
 package co.com.marimaro.store.persistance.mapper;
 
 import co.com.marimaro.store.domain.model.product.Product;
+import co.com.marimaro.store.domain.model.product.gateway.ProductSearchCriteria;
 import co.com.marimaro.store.external.web.dto.request.create.product.CreateProductDTO;
 import co.com.marimaro.store.external.web.dto.response.product.DetailedProductDTO;
 import co.com.marimaro.store.external.web.dto.response.product.SummarizedProductDTO;
 import co.com.marimaro.store.persistance.entity.product.Producto;
+import co.com.marimaro.store.persistance.repository.Producto.ProductoFilters;
 
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.InheritInverseConfiguration;
@@ -47,4 +49,21 @@ public interface ProductMapper {
                         @Mapping(source = "categories", target = "categories")
         })
         Product toDomain(CreateProductDTO dto);
+
+        // CRITERIA FILTERS
+        @Mappings({
+                        @Mapping(target = "page_number", source = "page_number"),
+                        @Mapping(target = "page_size", source = "page_size"),
+                        @Mapping(target = "name", source = "nombre"),
+                        @Mapping(target = "categoryId", source = "idCategoria"),
+                        @Mapping(target = "sku", source = "sku"),
+                        @Mapping(target = "size", source = "talla"),
+                        @Mapping(target = "material", source = "material"),
+                        @Mapping(target = "color", source = "color")
+        })
+        ProductSearchCriteria toCriteria(ProductoFilters filters);
+
+        @InheritInverseConfiguration
+        ProductoFilters toPersistence(ProductSearchCriteria criteria);
+
 }

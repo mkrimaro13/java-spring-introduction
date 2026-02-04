@@ -9,7 +9,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-@Mapper(componentModel = "spring", uses = { AttributeMapper.class, ProductMapper.class })
+@Mapper(componentModel = "spring", uses = { AttributeMapper.class })
 public interface VariantMapper {
     default Double calculateFinalPrice(Variant domain) {
         if (domain.getDiscount() == null || domain.getDiscount() <= 0) {

@@ -1,0 +1,33 @@
+server:
+  port: ${SPRING_APP_PORT}
+  servlet:
+    context-path: /store/api
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  devtools:
+    restart:
+      enabled: true
+      poll-interval: 1s
+      quiet-period: 500ms
+    livereload:
+      enabled: true
+logging:
+  level:
+    org:
+      hibernate:
+        orm:
+          jdbc:
+            bind: TRACE
+      springframework:
+        web: DEBUG
+
+# logging.level.org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod=DEBUG

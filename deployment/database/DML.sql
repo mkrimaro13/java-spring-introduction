@@ -57,21 +57,21 @@ VALUES ('talla'),
        ('material');
 
 INSERT INTO valores_atributos (id_atributo, valor)
-VALUES (1, 'S'),
-       (1, 'M'),
-       (1, 'XS'),
-       (1, 'L'),
-       (1, 'XL'),
-       (2, 'Negro'),
-       (2, 'Blanco'),
-       (2, 'Rojo'),
-       (2, 'Azul'),
-       (2, 'Estampado'),
-       (3, 'Algodón'),
-       (3, 'Poliester'),
-       (3, 'Lana'),
-       (3, 'Seda'),
-       (3, 'Satín');
+VALUES (1, 's'),
+       (1, 'm'),
+       (1, 'xs'),
+       (1, 'l'),
+       (1, 'xl'),
+       (2, 'negro'),
+       (2, 'blanco'),
+       (2, 'rojo'),
+       (2, 'azul'),
+       (2, 'estampado'),
+       (3, 'algodon'),
+       (3, 'poliester'),
+       (3, 'lana'),
+       (3, 'seda'),
+       (3, 'satin');
 
 INSERT INTO variantes_productos (id_producto, sku, precio, descuento, unidades_disponibles, enlace_imagen)
 VALUES (1, 'BR-BAS-NEG-M', 25000.00, 0, 50, 'https://pixabay.com/images/download/ai-generated-9482051_1920.jpg'),
